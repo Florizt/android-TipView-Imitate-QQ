@@ -311,9 +311,9 @@ public class TipView extends View {
             tipItem = mItemList.get(i);
             mPaint.setColor(tipItem.getTextColor());
             if (mStatus == STATUS_UP) {
-                canvas.drawText(tipItem.getTitle(), mItemRectList.get(i).left +mItemWidth/2- getTextWidth(tipItem.getTitle(), mPaint) / 2, mItemBorder - mItemHeight / 2 +  getTextHeight(tipItem.getTitle(),mPaint)/2, mPaint);
+                canvas.drawText(tipItem.getTitle(), mItemRectList.get(i).left +mItemWidth/2- getTextWidth(tipItem.getTitle(), mPaint) / 2, mItemBorder - mItemHeight / 2 +  getTextHeight(mPaint)/2, mPaint);
             } else if (mStatus == STATUS_DOWN) {
-                canvas.drawText(tipItem.getTitle(), mItemRectList.get(i).left +mItemWidth/2- getTextWidth(tipItem.getTitle(), mPaint) / 2, mItemRectList.get(i).bottom - mItemHeight / 2 +  getTextHeight(tipItem.getTitle(),mPaint)/2, mPaint);
+                canvas.drawText(tipItem.getTitle(), mItemRectList.get(i).left +mItemWidth/2- getTextWidth(tipItem.getTitle(), mPaint) / 2, mItemRectList.get(i).bottom - mItemHeight / 2 +  getTextHeight(mPaint)/2, mPaint);
             }
         }
 
@@ -361,10 +361,9 @@ public class TipView extends View {
 
 
 
-    private float getTextHeight(String text, Paint paint) {
-        Rect rect = new Rect();
-        paint.getTextBounds(text, 0, text.length(), rect);
-        return rect.height() / 1.1f;
+    private float getTextHeight(Paint paint) {
+        Paint.FontMetrics fontMetrics = paint.getFontMetrics();
+        return fontMetrics.bottom-fontMetrics.descent-fontMetrics.ascent;
     }
 
 
@@ -385,7 +384,7 @@ public class TipView extends View {
                         // 被按下时，choose值为当前方块Item序号
                         choose = i;
                         // 更新视图
-                        invalidate(mItemRectList.get(i));
+                        postInvalidate(mItemRectList.get(i).left,mItemRectList.get(i).top,mItemRectList.get(i).right,mItemRectList.get(i).bottom);
                     }
                 }
                 return true;
